@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">"Product_Data_Gathering "</string>
+    <string name="edit_string">Edit Data</string>
+    <string name="add_string">Add Product</string>
+    <string name="upload_string">Upload</string>
+    <string name="settings_string">Settings</string>
+</resources>
