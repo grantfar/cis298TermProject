@@ -24,6 +24,7 @@ public class SplashFragment extends Fragment {
 
         mEditButton = (Button) v.findViewById(R.id.editDataButton);
         mCreateNewButton = (Button) v.findViewById(R.id.createNewButton);
+        mSaveButton = (Button) v.findViewById(R.id.uploadButton);
 
         mCreateNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,12 @@ public class SplashFragment extends Fragment {
             }
         });
 
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return v;
     }
 }

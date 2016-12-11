@@ -1,14 +1,18 @@
 <resources>
-    <string name="app_name">"Product_Data_Gathering "</string>
+    <string name="app_name">"Product Data Gathering "</string>
     <string name="edit_string">Edit Data</string>
     <string name="add_string">Add Product</string>
     <string name="upload_string">Upload</string>
     <string name="settings_string">Settings</string>
-    <string name="upc_string">UPC</string>
-    <string name="price_string">Price</string>
-    <string name="product_string">Product Name</string>
-    <string name="producer_string">Producer</string>
+    <string name="upc_string">UPC:</string>
+    <string name="price_string">Price:</string>
+    <string name="product_string">Product Name:</string>
+    <string name="producer_string">Brand:</string>
     <string name="save_string">Save</string>
     <string name="user_string">User Name</string>
     <string name="password_string">Password</string>
+    <string name="create_user">Sign Up</string>
+    <string name="user_login">Log In</string>
+    <string name="settings_banner">Create an Account or Log In:</string>
+    <string name="splash_banner">Choose an Option Below to Begin:</string>
 </resources>

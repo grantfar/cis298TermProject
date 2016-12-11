@@ -1,5 +1,6 @@
 package david.grant.product_data_gathering;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,7 @@ public class ProductListFragment extends Fragment {
     private class productHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public Price  Price;
+        public Product Product;
         private TextView mName;
         private TextView mPrice;
         private TextView mDate;
@@ -79,7 +81,8 @@ public class ProductListFragment extends Fragment {
         }
         @Override
         public void onClick(View view) {
-
+            //Intent intent = priceCreateActivity.newIntent(getActivity(),Product.getUPC());
+            //startActivity(intent);
         }
     }
     private void updateUI(){
