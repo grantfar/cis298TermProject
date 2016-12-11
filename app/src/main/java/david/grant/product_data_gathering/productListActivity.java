@@ -12,18 +12,14 @@ import android.support.v7.app.AppCompatActivity;
  * Created by grant on 11/28/16.
  */
 
-public class productListActivity extends AppCompatActivity{
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.listFragmentContainer);
-        if(fragment == null){
-            fragment = new ProductListFragment();
-            fm.beginTransaction().add(R.id.listFragmentContainer,fragment).commit();
-        }
-    }
+public class productListActivity extends singleFragmentActivity{
+
     public static Intent newIntent(Context context){
         return new Intent(context,productListActivity.class);
+    }
+
+    @Override
+    protected Fragment createFragment() {
+        return new ProductListFragment();
     }
 }

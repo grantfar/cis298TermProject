@@ -2,16 +2,19 @@ package david.grant.product_data_gathering.Model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by grant on 11/21/16.
  */
 
 public class Price {
+    UUID ID;
     private double mPrice;
     private Product mProduct;
     private Date mDate;
     public Price(double price, Product product){
+        ID = UUID.randomUUID();
         mProduct = product;
         mPrice = price;
         mDate = Calendar.getInstance().getTime();

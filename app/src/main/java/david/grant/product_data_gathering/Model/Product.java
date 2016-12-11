@@ -11,6 +11,12 @@ public class Product {
     private String mUPC;
     private String mName;
 
+    public Product(String UPC, String Name, Producer producer){
+        mUPC = UPC;
+        mName = Name;
+        mProducer = producer;
+    }
+
     public Producer getProducer() {
         return mProducer;
     }

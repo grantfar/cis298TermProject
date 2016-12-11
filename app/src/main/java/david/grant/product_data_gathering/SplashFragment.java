@@ -28,6 +28,7 @@ public class SplashFragment extends Fragment {
         mCreateNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(priceCreateActivity.newIntent(getContext()));
             }
         });
 

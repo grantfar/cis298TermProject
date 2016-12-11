@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/usernameLabel"
+        android:text="@string/user_string"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:textSize="9pt"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/usernameLabel"
+        android:id="@+id/usernameEdit"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PasswordLabel"
+        android:text="@string/password_string"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="5dp"
+        android:textSize="9pt"
+        android:layout_below="@id/usernameLabel"
+        android:layout_alignLeft="@id/usernameLabel"
+        android:layout_alignRight="@id/usernameLabel"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/PasswordLabel"
+        android:layout_below="@id/usernameLabel"
+        android:id="@+id/passwordEdit"
+        android:inputType="textPassword"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/save_string"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6sp"
+        android:layout_marginBottom="3sp"
+        android:id="@+id/settingSaveButton"/>
+</RelativeLayout>
