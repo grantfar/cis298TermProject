@@ -6,14 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/upc_string"
             android:textSize="10pt"
-            android:width="30pt"
-            android:textAlignment="center"/>
+            android:width="65pt"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,14 +25,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/price_string"
             android:textSize="10pt"
-            android:width="30pt"
-            android:textAlignment="center" />
+            android:width="65pt"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,24 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/product_string"
-            android:textSize="9pt"
-            android:width="60pt"
-            android:textAlignment="center" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nameEdit"
-            android:layout_weight="1" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
@@ -68,13 +54,31 @@
             android:text="@string/producer_string"
             android:textSize="10pt"
             android:layout_marginTop="4sp"
-            android:width="60pt"
-            android:textAlignment="center" />
+            android:width="65pt"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4sp"
             android:id="@+id/producerEdit"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_string"
+            android:textSize="9pt"
+            android:width="65pt"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameEdit"
             android:layout_weight="1" />
     </LinearLayout>
     <RelativeLayout

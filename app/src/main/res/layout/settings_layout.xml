@@ -3,18 +3,34 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsBanner"
+        android:text="@string/settings_banner"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="12pt"
+        android:padding="10dp"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/usernameLabel"
         android:text="@string/user_string"
-        android:layout_marginTop="15dp"
+        android:layout_below="@id/settingsBanner"
         android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:textSize="9pt"/>
     <EditText
+        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/settingsBanner"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_toRightOf="@id/usernameLabel"
+        android:layout_toEndOf="@id/usernameLabel"
         android:id="@+id/usernameEdit"/>
     <TextView
         android:layout_width="wrap_content"
@@ -23,25 +39,42 @@
         android:text="@string/password_string"
         android:layout_marginTop="13dp"
         android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:textSize="9pt"
         android:layout_below="@id/usernameLabel"
         android:layout_alignLeft="@id/usernameLabel"
-        android:layout_alignRight="@id/usernameLabel"/>
+        android:layout_alignStart="@id/usernameLabel"
+        android:layout_alignRight="@id/usernameLabel"
+        android:layout_alignEnd="@id/usernameLabel"/>
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_toRightOf="@id/PasswordLabel"
+        android:layout_toEndOf="@id/PasswordLabel"
         android:layout_below="@id/usernameLabel"
         android:id="@+id/passwordEdit"
         android:inputType="textPassword"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/save_string"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="6sp"
-        android:layout_marginBottom="3sp"
-        android:id="@+id/settingSaveButton"/>
+        android:id="@+id/createUserButton"
+        android:text="@string/create_user"
+        android:layout_alignBaseline="@+id/userLoginButton"
+        android:layout_alignBottom="@+id/userLoginButton"
+        android:layout_alignLeft="@+id/PasswordLabel"
+        android:layout_alignStart="@+id/PasswordLabel"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userLoginButton"
+        android:text="@string/user_login"
+        android:layout_below="@id/passwordEdit"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toRightOf="@id/createUserButton"
+        android:layout_toEndOf="@id/createUserButton"/>
 </RelativeLayout>
