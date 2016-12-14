@@ -20,6 +20,8 @@ public class Price {
         mDate = Calendar.getInstance().getTime();
     }
 
+    public  UUID getID =
+
     public double getPrice() {
         return mPrice;
     }
