@@ -19,7 +19,12 @@ public class productDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(ProductTable.CREATIONSQL + ProducerTable.CREATIONSQL + PriceTable.CREATIONSQL);
+        sqLiteDatabase.execSQL("Create Table " + PriceTable.NAME + "( _ID integer primary key autoincrement, " +
+                PriceTable.Cols.ENTRYID + " Text, " +
+                PriceTable.Cols.UPC + " Text, " +
+                PriceTable.Cols.PRICE + " Double, " +
+                PriceTable.Cols.PRODUCTNAME + " Text, " +
+                PriceTable.Cols.PRODUCERNAME + " Text)");
     }
 
     @Override

@@ -10,6 +10,7 @@
     <string name="producer_string">Brand:</string>
     <string name="save_string">Save</string>
     <string name="delete_string">Delete</string>
+    <string name="new_product_string">New Price</string>
     <string name="user_string">User Name</string>
     <string name="password_string">Password</string>
     <string name="create_user">Sign Up</string>

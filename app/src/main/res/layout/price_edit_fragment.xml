@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:text="@string/upc_string"
             android:textSize="10pt"
-            android:width="65pt"/>
+            android:width="65pt"
+            android:inputType="number"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,5 +109,14 @@
             android:layout_marginBottom="5dp"
             android:text="@string/delete_string"
             android:id="@+id/deleteButton"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/new_product_string"
+            android:id="@+id/newButton"/>
     </RelativeLayout>
 </LinearLayout>

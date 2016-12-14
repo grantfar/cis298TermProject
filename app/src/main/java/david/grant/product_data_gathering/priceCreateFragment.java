@@ -29,8 +29,6 @@ import java.util.UUID;
 
 import david.grant.product_data_gathering.Model.DataHolder;
 import david.grant.product_data_gathering.Model.Price;
-import david.grant.product_data_gathering.Model.Producer;
-import david.grant.product_data_gathering.Model.Product;
 
 /**
  * Created by grant on 11/29/16.
@@ -40,55 +38,86 @@ public class priceCreateFragment extends Fragment{
     private EditText mUPC;
     private EditText mProductName;
     private EditText mProducerName;
-    private EditText mPrice;
+    private EditText mPriceEdit;
     private Button mSaveButton;
     private Button mScanUPCButton;
     private Button mDeleteButton;
+    private Button mNewButton;
     private DataHolder mDataHolder;
 
-    private final String UPC_KEY = "upc";
-    private final String PRICE_KEY = "price";
-    private final String PRODUCER_KEY = "producer";
-    private final String PRODUCT_KEY = "product name";
+    private Price mPrice;
+    private boolean inDatabase;
+
+    private static final String ID_KEY = "price_uuid";
+    private static final String DATABASE_KEY = "in_data_base";
+    private static final String UPC_KEY = "upc";
+    private static final String PRICE_KEY = "price";
+    private static final String PRODUCER_KEY = "producer";
+    private static final String PRODUCT_KEY = "product name";
 
     private File mImage;
     private static final int GET_PICTURE = 1;
 
-    public static priceCreateFragment getFragment(){
-        priceCreateFragment theFragment = new priceCreateFragment();
-        theFragment.setArguments(new Bundle());
-        return theFragment;
-    }
 
     public static priceCreateFragment getFragment(UUID id){
-        
+        priceCreateFragment theFrag = new priceCreateFragment();
+        Bundle arg = new Bundle();
+        arg.putSerializable(ID_KEY, id);
+        theFrag.setArguments(arg);
+        return theFrag;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.price_edit_fragment,container,false);
-        mDataHolder = DataHolder.getDataHolder();
+        mDataHolder = DataHolder.getDataHolder(getActivity());
         mUPC = (EditText) view.findViewById(R.id.upcEdit);
         mProducerName = (EditText) view.findViewById(R.id.producerEdit);
         mProductName = (EditText) view.findViewById(R.id.nameEdit);
-        mPrice = (EditText) view.findViewById(R.id.priceEdit);
+        mPriceEdit = (EditText) view.findViewById(R.id.priceEdit);
+        inDatabase = false;
+        if(getArguments() != null && !getArguments().isEmpty()){
+            mPrice = mDataHolder.getPrice((UUID) getArguments().getSerializable(ID_KEY));
+            inDatabase = true;
+            getArguments().clear();
+        }
 
-
+        mNewButton = (Button) view.findViewById(R.id.newButton);
+        mNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPrice = null;
+                inDatabase = false;
+                mUPC.setText("");
+                mProductName.setText("");
+                mProducerName.setText("");
+                mPriceEdit.setText("");
+                setEnabledUI();
+            }
+        });
 
         mSaveButton = (Button)view.findViewById(R.id.saveButton);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mUPC.getText().toString().length() == 12){
-                    Producer tProducer = new Producer(mProducerName.getText().toString(),mUPC.getText().toString().substring(1,6));
-                    Product tProduct = new Product(mUPC.getText().toString(),mProductName.getText().toString(),tProducer);
-                    Price tPrice = new Price(Double.parseDouble(mPrice.getText().toString()),tProduct);
-                    mDataHolder.getPrices().add(tPrice);
-                    Context context = getContext();
-                    Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show();
-                    putData(getArguments());
-                    setData(savedInstanceState);
+                if(verifyInput()){
+                    if(inDatabase){
+                        mPrice.setPrice(Double.parseDouble(mPriceEdit.getText().toString()));
+                        mPrice.setProducerName(mProducerName.getText().toString());
+                        mPrice.setProductName(mProductName.getText().toString());
+                        mDataHolder.updatePrice(mPrice);
+                    }
+                    else{
+                        mDataHolder.addPrice(new Price(mUPC.getText().toString(),Double.parseDouble(mPriceEdit.getText().toString()),
+                                mProductName.getText().toString(),mProducerName.getText().toString()));
+                        inDatabase = true;
+                        setEnabledUI();
+                    }
+                    Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Invalid Input", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,7 +131,15 @@ public class priceCreateFragment extends Fragment{
         });
 
         mDeleteButton = (Button) view.findViewById(R.id.deleteButton);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataHolder.deletePrice(mPrice.getID());
+                getActivity().finish();
+            }
+        });
         setData(savedInstanceState);
+        setEnabledUI();
         return view;
     }
 
@@ -152,37 +189,53 @@ public class priceCreateFragment extends Fragment{
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        putData(outState);
+        outState.putBoolean(DATABASE_KEY,inDatabase);
+        if(inDatabase){
+            outState.putSerializable(ID_KEY,mPrice.getID());
+        }
+        outState.putString(PRODUCT_KEY,mProductName.getText().toString());
+        outState.putString(PRODUCER_KEY,mProducerName.getText().toString());
+        outState.putString(UPC_KEY,mUPC.getText().toString());
+        outState.putString(PRICE_KEY,mPriceEdit.getText().toString());
         super.onSaveInstanceState(outState);
     }
 
     private void setData(Bundle savedState){
-        Bundle arguments = getArguments();
-        if(arguments == null || arguments.isEmpty()){
-            mDeleteButton.setEnabled(false);
-        }
-        else {
-            mUPC.setClickable(false);
-            mScanUPCButton.setEnabled(false);
-            if(savedState == null || savedState.isEmpty()){
-                mUPC.setText(arguments.getString(UPC_KEY));
-                mPrice.setText(arguments.getString(PRICE_KEY));
-                mProductName.setText(arguments.getString(PRODUCT_KEY));
-                mProducerName.setText(arguments.getString(PRODUCER_KEY));
+        if(savedState != null && !savedState.isEmpty()){
+            inDatabase = savedState.getBoolean(DATABASE_KEY);
+            if(inDatabase){
+                mPrice = mDataHolder.getPrice((UUID) savedState.getSerializable(ID_KEY));
             }
-        }
-        if (savedState != null && !savedState.isEmpty()){
             mUPC.setText(savedState.getString(UPC_KEY));
-            mPrice.setText(savedState.getString(PRICE_KEY));
-            mProductName.setText(savedState.getString(PRODUCT_KEY));
+            mPriceEdit.setText(savedState.getString(PRICE_KEY));
             mProducerName.setText(savedState.getString(PRODUCER_KEY));
+            mProductName.setText(savedState.getString(PRODUCT_KEY));
+        }
+        else if (mPrice!=null){
+            mUPC.setText(mPrice.getUpc());
+            mPriceEdit.setText(Double.toString(( mPrice.getPrice())));
+            mProducerName.setText(mPrice.getProducerName());
+            mProductName.setText(mPrice.getProductName());
         }
     }
 
-    private void putData(Bundle putBundle){
-        putBundle.putString(UPC_KEY,mUPC.getText().toString());
-        putBundle.putString(PRODUCT_KEY,mProductName.getText().toString());
-        putBundle.putString(PRODUCER_KEY,mProducerName.getText().toString());
-        putBundle.putString(PRICE_KEY,mPrice.getText().toString());
+    private void setEnabledUI(){
+        if(inDatabase){
+            mUPC.setEnabled(false);
+            mScanUPCButton.setEnabled(false);
+            mDeleteButton.setEnabled(true);
+        }
+        else{
+            mUPC.setEnabled(true);
+            mScanUPCButton.setEnabled(true);
+            mDeleteButton.setEnabled(false);
+        }
     }
+
+    //verivies that all of
+    private boolean verifyInput(){
+        return (mUPC.getText().length() == 12 || mUPC.getText().length() == 8) && mProducerName.getText().length() > 0 &&
+                mProductName.getText().length() > 0 && mPriceEdit.getText().length() > 0;
+    }
+
 }

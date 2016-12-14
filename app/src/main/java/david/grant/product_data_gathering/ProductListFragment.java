@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,11 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Date;
-
 import david.grant.product_data_gathering.Model.DataHolder;
 import david.grant.product_data_gathering.Model.Price;
-import david.grant.product_data_gathering.Model.Product;
 
 /**
  * Created by grant on 11/28/16.
@@ -32,7 +28,7 @@ public class ProductListFragment extends Fragment {
         View v = inflater.inflate(R.layout.product_list_fragment,container,false);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.productRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mDataHolder = DataHolder.getDataHolder();
+        mDataHolder = DataHolder.getDataHolder(getActivity());
         updateUI();
         return v;
     }
@@ -48,7 +44,7 @@ public class ProductListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(productHolder holder, int position) {
-            holder.Price = mDataHolder.getPrices().get(position);
+            holder.price = mDataHolder.getPrices().get(position);
             holder.updateView();
         }
 
@@ -60,31 +56,32 @@ public class ProductListFragment extends Fragment {
 
     private class productHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public Price  Price;
-        public Product Product;
+        public Price price;
         private TextView mName;
         private TextView mPrice;
-        private TextView mDate;
+        private TextView mUPC;
         public productHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mName = (TextView) itemView.findViewById(R.id.listItemName);
             mPrice = (TextView) itemView.findViewById(R.id.listItemPrice);
-            mDate = (TextView) itemView.findViewById(R.id.listItemDate);
+            mUPC= (TextView) itemView.findViewById(R.id.listItemUPC);
 
         }
 
         public void updateView(){
-            mPrice.setText("$"+Price.getPrice());
-            mDate.setText(Price.getDate().toString());
-            mName.setText(Price.getProduct().getName());
+            mPrice.setText("$"+price.getPrice());
+            mUPC.setText(price.getUpc());
+            mName.setText(price.getProductName());
         }
         @Override
         public void onClick(View view) {
-            //Intent intent = priceCreateActivity.newIntent(getActivity(),Product.getUPC());
-            //startActivity(intent);
+            Intent intent = priceCreateActivity.newIntent(getActivity(),price.getID());
+            startActivity(intent);
         }
     }
+
+    //updates the UI for the data in the database
     private void updateUI(){
         if(mAdapter == null)
         {
@@ -92,5 +89,11 @@ public class ProductListFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 }
