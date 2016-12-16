@@ -9,26 +9,57 @@ import java.util.UUID;
  */
 
 public class Price {
-    UUID ID;
+    UUID mID;
     private double mPrice;
-    private Product mProduct;
-    private Date mDate;
-    public Price(double price, Product product){
-        ID = UUID.randomUUID();
-        mProduct = product;
+    private String mUpc;
+    private String mProductName;
+    private String mProducerName;
+
+    public Price(String UPC, double price, String productName, String producerName){
+        this(UUID.randomUUID(),UPC,price,productName,producerName);
+    }
+
+    public Price(UUID ID, String UPC, double price, String productName, String producerName){
+        mID = ID;
+        mUpc = UPC;
+        mProductName = productName;
         mPrice = price;
-        mDate = Calendar.getInstance().getTime();
+        mProducerName = producerName;
+    }
+
+    public  UUID getID(){
+        return mID;
+    }
+
+    public String getUpc() {
+        return mUpc;
     }
 
     public double getPrice() {
         return mPrice;
     }
 
-    public Product getProduct() {
-        return mProduct;
+
+    public void setPrice(Double Price){
+        mPrice = Price;
     }
 
-    public Date getDate() {
-        return mDate;
+    public String getProducerName() {
+        return mProducerName;
+    }
+
+    public void setProducerName(String ProducerName) {
+        this.mProducerName = ProducerName;
+    }
+
+    public String getProductName() {
+        return mProductName;
+    }
+
+    public void setProductName(String ProductName) {
+        this.mProductName = ProductName;
     }
 }
+
+
+
