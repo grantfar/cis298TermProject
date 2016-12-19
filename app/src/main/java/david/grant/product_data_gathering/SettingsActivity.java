@@ -34,7 +34,6 @@ public class SettingsActivity extends Activity {
         mSettingsDatabase = new settingsDBHelper(this).getWritableDatabase();
         mUserNameEdit = (EditText) findViewById(R.id.usernameEdit);
         mPasswordEdit = (EditText) findViewById(R.id.passwordEdit);
-        //mSaveButton = (Button) findViewById(R.id.settingSaveButton);
         mCreateUserButton = (Button)findViewById(R.id.createUserButton);
         mUserLoginButton = (Button)findViewById(R.id.userLoginButton);
         getSettings();
@@ -42,6 +41,7 @@ public class SettingsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 ContentValues currentValues = new ContentValues();
+                //Future Development
                 //Cursor cursor = mSettingsDatabase.query(settingsTable.cols.USER,null,null,null,null,null,null);
                 //while(cursor.moveToNext()){
                     //if (cursor.getString(cursor.getPosition()).equalsIgnoreCase(mUserNameEdit.getText().toString())){
@@ -64,6 +64,7 @@ public class SettingsActivity extends Activity {
         mUserLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //For Future Development
                 //Cursor cursor = mSettingsDatabase.query(settingsTable.cols.USER,null,null,null,null,null,null);
                 //while(cursor.moveToNext()){
                     //Cursor cursor1 = mSettingsDatabase.query(settingsTable.cols.PASSWORD,null,null,null,null,null,null,null);
