@@ -17,4 +17,5 @@
     <string name="user_login">Log In</string>
     <string name="settings_banner">Create an Account or Log In:</string>
     <string name="splash_banner">Choose an Option Below to Begin:</string>
+    <string name="api_url">http://www.upcitemdb.com/api/trial/lookup?upc=%1$s</string>
 </resources>

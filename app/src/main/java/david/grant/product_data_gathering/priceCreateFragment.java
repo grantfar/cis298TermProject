@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,12 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.UUID;
 
 import david.grant.product_data_gathering.Model.DataHolder;
@@ -35,6 +40,9 @@ import david.grant.product_data_gathering.Model.Price;
  */
 
 public class priceCreateFragment extends Fragment{
+
+    private static final String TAG = "priceCreateFragment";
+
     private EditText mUPC;
     private EditText mProductName;
     private EditText mProducerName;
@@ -183,6 +191,8 @@ public class priceCreateFragment extends Fragment{
             SparseArray<Barcode> barCodes = barcodeDetector.detect(frame);
             if(barCodes.size() != 0){
                 mUPC.setText(barCodes.valueAt(0).rawValue);
+                //For future development
+                //fetchData(mUPC.getText().toString());
             }
         }
     }
@@ -219,6 +229,7 @@ public class priceCreateFragment extends Fragment{
         }
     }
 
+    //Detects if the product is in the database and disables/enables UI elements accordingly
     private void setEnabledUI(){
         if(inDatabase){
             mUPC.setEnabled(false);
@@ -232,10 +243,48 @@ public class priceCreateFragment extends Fragment{
         }
     }
 
-    //verivies that all of
+    //Verifies that the collected data is valid
     private boolean verifyInput(){
         return (mUPC.getText().length() == 12 || mUPC.getText().length() == 8) && mProducerName.getText().length() > 0 &&
                 mProductName.getText().length() > 0 && mPriceEdit.getText().length() > 0;
+    }
+
+    private byte[] getUrlBytes(String urlSpec) throws IOException {
+        URL url = new URL(urlSpec);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InputStream in = connection.getInputStream();
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException(connection.getResponseMessage() + ": with " + urlSpec);
+            }
+            int bytesRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((bytesRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, bytesRead);
+            }
+            out.close();
+            in.close();
+            return out.toByteArray();
+        } finally {
+            connection.disconnect();
+        }
+    }
+
+    private String getURLString(String urlSpec) throws IOException {
+        return new String(getUrlBytes(urlSpec));
+    }
+
+    private void fetchData(String upc) {
+        try{
+            String url = Uri.parse(getString(R.string.api_url,upc)).buildUpon().build().toString();
+            String jsonString = this.getURLString(url);
+            Log.i(TAG, "Fetched Contents of URL: " + jsonString);
+            //} catch(JSONException jse) {
+            //    Log.e(TAG, "Failed to parse JSON string: ", jse);
+        } catch(IOException ioe) {
+            Toast.makeText(getContext(), "Failed to fetch URL: " + ioe, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
